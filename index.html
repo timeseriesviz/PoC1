@@ -1,0 +1,585 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!--link type="text/css" href="themes/ui.all.css" rel="stylesheet" />
+  <link rel="stylesheet" href="js/jquery-ui-1.11.2.custom"-->
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="js/jquery-ui-1.11.4.custom/jquery-ui.min.css">
+  <script type="text/javascript" src="js/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+  <script type="text/javascript">
+  var DATA = {};
+  var leftImagePercent = 0;
+  var rightImagePercent = 0;
+  var TodayPercent;
+  var AudioTobePlayed=5;
+  /*
+  var selectedDay1 = true;
+  var selectedDay2 = true;*/
+  var audioState = false;
+  var itemLastClicked='';
+  var WelcomeAudio;
+  var WelcomeAudio2;
+  var WelcomeAudio3;
+  var MoreAudio;
+  var LessAudio;
+  var SameAudio;
+
+  function init() {
+
+    var count = 0;
+    $.getJSON('data.json', function (data) {
+      for (var i in data) {
+        count++;
+        var node = document.createElement("LI");
+        if (count == data.length) {
+          node.className = 'today';
+        } else {
+          node.className = 'day';
+        }
+        var prop = (data[i].Date).toString();
+        DATA[prop] = data[i];
+        var text = data[i].Date;
+        var day = data[i].Day;
+        var BadgeMinutes = data[i].Minutes;
+        /** Adding Badges */
+        var BadgeImageArray = ["images/5minsbadge.png", "images/10minsbadge.png",
+        "images/15minsbadge.png"];
+
+        /* TODO
+
+        Since Textnode is inside Div, which is inside LI.
+        Therefore, mouse touch / click function does not work when you exactly
+        place  cursor (or) touch above the text. */
+
+
+        /* the code is repeated because the node is created inside the IF-ELSE */
+        if (count == data.length) {
+
+          var textnode = document.createTextNode("Today"+"\r\n" + text);
+          var textDiv = document.createElement('div');
+          textDiv.id = 'dataText';
+          textDiv.className = 'dataText';
+          textDiv.appendChild(textnode);
+
+          var dayTextNode = document.createTextNode(day);
+          var dayTextDiv  = document.createElement('div');
+          dayTextDiv.className = 'dayText';
+          dayTextDiv.id = 'dayText';
+          dayTextDiv.appendChild(dayTextNode);
+
+          var ImageDiv = document.createElement('div');
+          ImageDiv.className = 'ImageDivs';
+          ImageDiv.id = 'ImageDivs';
+          var BadgeImg = document.createElement("img");
+          BadgeImg.className = 'badgeimage';
+          console.log("Minutes  ----> " + BadgeMinutes);
+          var badgeIndex =  CheckBadgeTime(BadgeMinutes);
+          console.log("Image Index --> " + badgeIndex );
+          if(badgeIndex != (-1))
+          {
+            BadgeImg.src = BadgeImageArray[badgeIndex];
+          }
+          ImageDiv.appendChild(BadgeImg);
+
+          node.appendChild(textDiv);
+          node.appendChild(ImageDiv);
+          node.appendChild(dayTextDiv);
+          node.id = text;
+          document.getElementById("TodayContainer").appendChild(node);
+
+        } else if (count == (data.length - 1)) {
+          var textnode = document.createTextNode("Yesterday\n" + text);
+          var textDiv = document.createElement('div');
+          textDiv.id = 'dataText';
+          textDiv.className = 'dataText';
+          textDiv.appendChild(textnode);
+
+          var dayTextNode = document.createTextNode(day);
+          var dayTextDiv  = document.createElement('div');
+          dayTextDiv.className = 'dayText';
+          dayTextDiv.id = 'dayText';
+          dayTextDiv.appendChild(dayTextNode);
+
+
+          var ImageDiv = document.createElement('div');
+          ImageDiv.className = 'ImageDivs';
+          ImageDiv.id = 'ImageDivs';
+          var BadgeImg = document.createElement("img");
+          BadgeImg.className = 'badgeimage';
+          console.log("Minutes  ----> " + BadgeMinutes);
+          var badgeIndex =  CheckBadgeTime(BadgeMinutes);
+          console.log("Image Index --> " + badgeIndex );
+          if(badgeIndex != (-1))
+          {
+            BadgeImg.src = BadgeImageArray[badgeIndex];
+          }
+          ImageDiv.appendChild(BadgeImg);
+
+
+          node.appendChild(textDiv);
+          node.appendChild(ImageDiv);
+          node.appendChild(dayTextDiv);
+
+          node.id = text;
+          document.getElementById("scroller").appendChild(node);
+
+        } else {
+          var textnode = document.createTextNode(text);
+          var textDiv = document.createElement('div');
+          textDiv.className = 'dataText';
+          textDiv.id = 'dataText';
+          textDiv.appendChild(textnode);
+
+          var dayTextNode = document.createTextNode(day);
+          var dayTextDiv  = document.createElement('div');
+          dayTextDiv.className = 'dayText';
+          dayTextDiv.id = 'dayText';
+          dayTextDiv.appendChild(dayTextNode);
+
+          var ImageDiv = document.createElement('div');
+          ImageDiv.className = 'ImageDivs';
+          ImageDiv.id = 'ImageDivs';
+          var BadgeImg = document.createElement("img");
+          BadgeImg.className = 'badgeimage';
+          console.log("Minutes  ----> " + BadgeMinutes);
+          var badgeIndex =  CheckBadgeTime(BadgeMinutes);
+          console.log("Image Index --> " + badgeIndex );
+          if(badgeIndex != (-1))
+          {
+            BadgeImg.src = BadgeImageArray[badgeIndex];
+          }
+          ImageDiv.appendChild(BadgeImg);
+
+          node.appendChild(textDiv);
+          node.appendChild(ImageDiv);
+          node.appendChild(dayTextDiv);
+          node.id = text;
+          document.getElementById("scroller").appendChild(node);
+        }
+
+
+
+      } // end of FOR
+      console.log(DATA);
+
+      for(var i=0; i < data.length; i++)
+      {
+      if(data[i].Minutes == 0)
+      {
+        console.log("Minutes ---------------->" + BadgeMinutes);
+        document.getElementById(data[i].Date).style.borderColor = "#545454";
+      document.getElementById(data[i].Date).style.borderWidth = "thin";
+      document.getElementById(data[i].Date).style.color = 'grey';
+      document.getElementById(data[i].Date).style.backgroundColor='#C0C0C0';
+      }
+    }
+
+
+
+      /* init audio files and set ID */
+      WelcomeAudio = new Audio('sounds/intro.mp3');
+      MoreAudio = new Audio('sounds/Sas More Water.m4a');
+      LessAudio = new Audio('sounds/Sas Less Water.m4a');
+      SameAudio = new Audio('sounds/Sas Same Water.m4a');
+      //  MissingAudio = new Audio('sounds/Sas Same Water.m4a');
+      WelcomeAudio.id = 'welcome';
+      //WelcomeAudio.autoplay=true;
+      MoreAudio.id = 'moreAudio';
+      SameAudio.id = 'sameAudio';
+      LessAudio.id = 'lessAudio';
+
+      imageLeft.src = 'images/bottle0.png';
+      document.getElementById("leftText").innerHTML = "Touch a Day";
+
+      /*  TODO change hardcoded values */
+      changeImage("imageRight", "18-Dec", "right");
+      //  rightImagePercent = DATA["18-Dec"].Percentage_Time;
+
+      //  WelcomeAudio.play();
+      document.getElementById("audioButton").src = 'images/audioButton.png';
+
+      /* starts the scroller from the right most corner */
+      $("#scroller").scrollLeft(($('#Container').width())*count);
+
+      //uncomment the following line to enable click for the text field.
+      //but on click function you need to handle based on the click of this field also.
+      //similarly you can add for other fields.
+
+      document.getElementById("scroller").addEventListener("click", scrollerClick);
+      document.getElementById("TodayContainer").addEventListener("click", todayClick);
+      document.getElementById("Audio").addEventListener("click", audioClick);
+      document.getElementById("ImageDivs").addEventListener("click", scrollerClick);
+      document.getElementById("dataText").addEventListener("click", scrollerClick);
+      document.getElementById("dayText").addEventListener("click", scrollerClick);
+
+    }); // end of J Query
+  }
+
+
+  function CheckBadgeTime(time)
+  {
+    console.log("TIME --> " + time );
+    if(time < 5)
+    {
+      return -1;
+    }
+
+    if(time >=5 && time < 10)
+    {
+      return 0;
+    }
+
+    if(time >=10 && time < 15)
+    {
+      return 1;
+    }
+
+    if(time >=15)
+    {
+      return 2;
+    }
+
+    return -1;
+  }
+
+
+
+
+  function scrollerClick(e) {
+    console.log("Event Listener Called for::: "+e.target.id+ "For Nodename" + e.target.nodeName);
+    var checkMinutes = 0;
+    if(e.target && e.target.nodeName == 'IMG')
+    {
+      console.log("e's grand parent :::: => "+e.target.parentNode.parentNode);
+
+      var text = e.target.parentNode.parentNode.childNodes[0].childNodes[0].nodeValue.toString();
+
+      if (text.indexOf('Yesterday') > -1)
+      {
+        checkMinutes = 0;
+      }
+      else {
+        checkMinutes =  DATA[text].Minutes;
+      }
+
+      if(  checkMinutes == 0)
+      {
+        console.log(text+' -------' + checkMinutes);
+        e.target.parentNode.parentNode.style.borderColor = "#545454";
+        e.target.parentNode.parentNode.style.borderWidth = "thin";
+        e.target.parentNode.parentNode.style.color = 'grey';
+        $(event.target.parentNode.parentNode).css('background-color', '#C0C0C0');
+        return;
+
+      }
+      else {
+      e.target.parentNode.parentNode.style.borderColor = "#FF0000";
+      e.target.parentNode.parentNode.style.borderWidth = "thick";
+      e.target.parentNode.parentNode.style.color = 'black';
+      $(event.target.parentNode.parentNode).css('background-color', '#FFFFE0');
+
+      console.log("PRINT LOG: Clicked ID: " + e.target.parentNode.parentNode.id.toString() +
+      "\n PRINT LOG: Last Item: " + itemLastClicked);
+
+      if (itemLastClicked !='' && itemLastClicked != e.target.parentNode.parentNode.id) {
+
+        document.getElementById(itemLastClicked).style.borderColor = 'black';
+        document.getElementById(itemLastClicked).style.borderWidth = "thin";
+        document.getElementById(itemLastClicked).style.color = '#008B8B';
+        document.getElementById(itemLastClicked).style.backgroundColor = '#ffffff';
+      }
+      itemLastClicked = e.target.parentNode.parentNode.id.toString();
+    }
+    }
+
+    if( e.target && e.target.nodeName == 'DIV')
+    {
+      console.log("E's Parent is ::::"+e.target.parentNode.nodeName);
+      var text = e.target.parentNode.childNodes[0].childNodes[0].nodeValue.toString();
+
+      if (text.indexOf('Yesterday') > -1)
+      {
+        checkMinutes = 0;
+      }
+      else {
+        checkMinutes =  DATA[text].Minutes;
+      }
+
+      if(  checkMinutes == 0)
+      {
+        console.log(text+' -------' + checkMinutes);
+        e.target.parentNode.style.borderColor = "#545454";
+        e.target.parentNode.style.borderWidth = "thin";
+        e.target.parentNode.style.color = 'grey';
+        $(event.target.parentNode).css('background-color', '#C0C0C0');
+        return;
+      } //end of minutes check
+
+      else {
+        e.target.parentNode.style.borderColor = "#FF0000";
+        e.target.parentNode.style.borderWidth = "thick";
+        e.target.parentNode.style.color = 'black';
+        $(event.target.parentNode).css('background-color', '#FFFFE0');
+
+        console.log("PRINT LOG: Clicked ID: " + e.target.parentNode.id.toString() +
+        "\n PRINT LOG: Last Item: " + itemLastClicked);
+
+        if (itemLastClicked !='' && itemLastClicked != e.target.parentNode.id) {
+
+          document.getElementById(itemLastClicked).style.borderColor = 'black';
+          document.getElementById(itemLastClicked).style.borderWidth = "thin";
+          document.getElementById(itemLastClicked).style.color = '#008B8B';
+          document.getElementById(itemLastClicked).style.backgroundColor = '#ffffff';
+        } //end of item last check
+        itemLastClicked = e.target.parentNode.id.toString();
+      } // end of else
+    } // end of DIV check
+    /* If the list element of the scroller  is clicked,
+    then take the Li -> textnode -> text
+    set property for the unordered list */
+    if (e.target && e.target.nodeName == "LI") {
+      var text = e.target.childNodes[0].childNodes[0].nodeValue.toString();
+      /* because 17 dec has additional text in index. */
+      if (text.indexOf('Yesterday') > -1)
+      {
+        checkMinutes = 0;
+      }
+      else {
+        checkMinutes =  DATA[text].Minutes;
+      }
+
+      if(  checkMinutes == 0)
+      {
+        console.log(text+' -------' + checkMinutes);
+        e.target.style.borderColor = "#545454";
+        e.target.style.borderWidth = "thin";
+        e.target.style.color = 'grey';
+        $(event.target).css('background-color', '#C0C0C0');
+        return;
+
+      }
+      else {
+
+      e.target.style.borderColor = "#FF0000";
+      e.target.style.borderWidth = "thick";
+      e.target.style.color = 'black';
+      $(event.target).css('background-color', '#FFFFE0');
+
+      console.log("PRINT LOG: Clicked ID: " + e.target.id.toString() +
+      "\n PRINT LOG: Last Item: " + itemLastClicked);
+
+      if (itemLastClicked !='' && itemLastClicked != e.target.id) {
+
+        document.getElementById(itemLastClicked).style.borderColor = 'black';
+        document.getElementById(itemLastClicked).style.borderWidth = "thin";
+        document.getElementById(itemLastClicked).style.color = '#008B8B';
+        document.getElementById(itemLastClicked).style.backgroundColor = '#ffffff';
+      } // end of item last checked
+      itemLastClicked = e.target.id.toString();
+    }// end of else
+
+    }// END OF LI IF
+
+    text = text.replace("Yesterday"+"\r\n","");
+    text = text.replace("Today"+"\r\n","");
+
+    /* calls the user defined function 'changeImage' to change the left side text. */
+    changeImage("imageLeft", text, "left");
+
+
+    /*TODO: can play/pause the three mock up  feedback audios  here [See audioButton tag in HTML] */
+    if (rightImagePercent > leftImagePercent) {
+      document.getElementById('Character').src = 'images/happysasc.png';
+      AudioTobePlayed = 1; /*more  audio */
+    }
+    else   if (rightImagePercent == leftImagePercent) {
+      document.getElementById('Character').src = 'images/happysasc.png';
+      AudioTobePlayed = 2; /*same  audio */
+    }
+    else if (rightImagePercent < leftImagePercent) {
+      document.getElementById('Character').src = 'images/happysasc.png';
+      AudioTobePlayed = 3; /* less audio */
+    }
+    else if (rightImagePercent == 0)
+    {
+      document.getElementById('Character').src = 'images/sadsasc.png';
+      AudioTobePlayed = 4; /* missing audio */
+    }
+
+    /* pause the audio(s) if user clicks on the calender */
+    WelcomeAudio.pause();
+    WelcomeAudio.currentTime = 0;
+
+    MoreAudio.pause();
+    MoreAudio.currentTime = 0;
+
+    LessAudio.pause();
+    LessAudio.currentTime = 0;
+
+    SameAudio.pause();
+    SameAudio.currentTime = 0;
+
+    document.getElementById("audioButton").src = 'images/audioButton.png';
+
+    if (audioState) {
+      //stop audio on new selection.
+      console.log("pause or stop audio of previous date here");
+      audioState = false;
+    }
+  }
+
+  function todayClick(e){
+    // e.target is our targetted element.
+    // try doing console.log(e.target.nodeName), it will result LI
+    if (e.target && e.target.nodeName == "LI") {
+      var text = e.target.childNodes[0].childNodes[0].nodeValue.toString();
+      e.target.style.borderColor = "#FF0000";
+      e.target.style.borderWidth = "thick";
+      e.target.style.color = 'black';
+      //alert(e.target.childNodes[0].nodeValue+""+ text);
+      changeImage("imageRight", text);
+    }
+  }
+
+  function audioClick(e){
+    console.log("wow audio click working");
+
+
+    if (audioState) {
+      console.log("pause or stop it");
+      audioState = false;
+    } else {
+      console.log("play it");
+      audioState = true;
+    }
+
+    if(AudioTobePlayed == 1)
+    {
+      MoreAudio.play();
+    }
+
+    if(AudioTobePlayed == 2)
+    {
+      SameAudio.play();
+    }
+
+    if(AudioTobePlayed == 3)
+    {
+      LessAudio.play();
+    }
+
+    if(AudioTobePlayed == 5)
+    {
+      WelcomeAudio.play();
+      AudioTobePlayed = 0;
+    }
+  }
+
+
+  function changeImage(elementid, text, side) {
+
+    var image_list = ["images/bottle20.png", "images/bottle40.png",
+    "images/bottle60.png", "images/bottle80.png", "images/bottle100.png"];
+
+    console.log("came here" + text);
+
+    var Percentage = DATA[text].Percentage_Time;
+    var Minutes = DATA[text].Minutes;
+    var sno = DATA[text].SNO;
+    var dummypercent = 0;
+
+    if (Percentage > 0 && Percentage < 20) {
+      dummypercent = 20;
+    }
+    if (Percentage >= 20 && Percentage < 40) {
+      dummypercent = 40;
+    }
+    if (Percentage >= 40 && Percentage < 60) {
+      dummypercent = 60;
+    }
+    if (Percentage >= 60 && Percentage < 80) {
+      dummypercent = 80;
+    }
+    if (Percentage >= 80 && Percentage <= 100) {
+      dummypercent = 100;
+    }
+    if(Percentage == 0)
+    {
+      dummypercent = 0;
+      document.getElementById(elementid).src = 'images/bottle0.png'
+    }
+    else {
+      document.getElementById(elementid).src = image_list[(dummypercent / 20) - 1];
+    }
+
+    if(side == 'left')
+    {
+      leftImagePercent = dummypercent;
+    }
+    else {
+      rightImagePercent = dummypercent;
+    }
+    console.log(Percentage)
+    console.log(Minutes)
+    console.log(sno)
+    console.log(dummypercent)
+
+
+    if (elementid == "imageLeft") {
+      console.log("hit here");
+      document.getElementById("leftText").innerHTML = text;
+    } else {
+      console.log("hitt here");
+      document.getElementById("rightText").innerHTML = 'Today';
+    }
+  }
+  </script>
+
+</head>
+
+<body onload='init();'>
+
+  <div id='Narrative'>
+    <img id='Character' img src="images/wavesasc.png" alt="Guiding_sasc"> </img>
+
+    <div id='Audio'>
+      <!-- TODO: This button appears once the user makes the date selection (that means, it does not appear on inital load).
+      The image for the button is images/audioButton.png.
+      User can click on this button to get feedback of their performance (after selecting a date).
+      Once the user selects the next date, this  audio should pause (so  good way to test is to have three mock up audios) -->
+      <img id='audioButton' img src=""> </img>
+    </div>
+  </div>
+
+
+
+  <div id='databox'>
+    <div id='rightContent'>
+      <img id='imageRight' img src="" alt="Right side percentage"> </img>
+      <p id="rightText" </>
+    </div>
+    <div id='leftContent'>
+      <img id='imageLeft' img src=""></img>
+      <p id="leftText" </>
+    </div>
+    <div id='legend'>
+      <img id='legendImage' img src="images/legend.png" alt="legend image"> </img>
+    </div>
+  </div>
+
+
+
+  <!-- scroller for calender. Calender div  contains scroller div (previous date) and today div*/ -->
+  <div id='Container'>
+    <ul id='scroller'>
+    </ul>
+    <ul id='TodayContainer'>
+    </ul>
+  </div>
+
+</body>
+
+</html>

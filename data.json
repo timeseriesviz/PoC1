@@ -1,0 +1,100 @@
+[
+  {
+    "SNO": 1,
+    "Date": "05-Dec",
+    "Day": "Saturday",
+    "Percentage_Time": 22,
+    "Minutes": 15
+  },
+  {
+    "SNO": 2,
+    "Date": "06-Dec",
+    "Day": "Sunday",
+    "Percentage_Time": 0,
+    "Minutes": 0
+  },
+  {
+    "SNO": 3,
+    "Date": "07-Dec",
+    "Day": "Monday",
+    "Percentage_Time": 89.65517241,
+    "Minutes": 11
+  },
+  {
+    "SNO": 4,
+    "Date": "08-Dec",
+    "Day": "Tuesday",
+    "Percentage_Time": 14,
+    "Minutes": 9
+  },
+  {
+    "SNO": 5,
+    "Date": "09-Dec",
+    "Day": "Wednesday",
+    "Percentage_Time": 100,
+    "Minutes": 2
+  },
+  {
+    "SNO": 6,
+    "Date": "10-Dec",
+    "Day": "Thursday",
+    "Percentage_Time": 45,
+    "Minutes": 22
+  },
+  {
+    "SNO": 7,
+    "Date": "11-Dec",
+    "Day": "Friday",
+    "Percentage_Time": 9,
+    "Minutes": 7
+  },
+  {
+    "SNO": 8,
+    "Date": "12-Dec",
+    "Day": "Saturday",
+    "Percentage_Time": 91,
+    "Minutes": 20
+  },
+  {
+    "SNO": 9,
+    "Date": "13-Dec",
+    "Day": "Sunday",
+    "Percentage_Time": 0,
+    "Minutes": 0
+  },
+  {
+    "SNO": 10,
+    "Date": "14-Dec",
+    "Day": "Monday",
+    "Percentage_Time": 42,
+    "Minutes": 4.6
+  },
+  {
+    "SNO": 11,
+    "Date": "15-Dec",
+    "Day": "Tuesday",
+    "Percentage_Time": 84,
+    "Minutes": 9
+  },
+  {
+    "SNO": 12,
+    "Date": "16-Dec",
+    "Day": "Wednesday",
+    "Percentage_Time": 24,
+    "Minutes": 3.4
+  },
+  {
+    "SNO": 13,
+    "Date": "17-Dec",
+    "Day": "Thursday",
+    "Percentage_Time": 0,
+    "Minutes": 0
+  },
+  {
+    "SNO": 14,
+    "Date": "18-Dec",
+    "Day": "Friday",
+    "Percentage_Time": 57,
+    "Minutes": 17
+  }
+]

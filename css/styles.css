@@ -1,0 +1,263 @@
+body {
+    background-color: #ffffff;
+    overflow-y: hidden;
+    font-family: Helvetica, Arial, Sans-Serif;
+    font-size: 2em;
+    color: #008B8B;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#Narrative {
+    position: relative;
+    float: left;
+    top: 2%;
+    width: 40%;
+    height: 60%;
+    border: hidden;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 10px;
+  /*  border: 1px solid black;*/
+}
+
+#Audio {
+    position: absolute;
+    left: 44%;
+    top: 3%;
+    width: 30%;
+    height: 30%;
+    border: hidden;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 10px;
+    background-color:rgba(255,255,255,0);
+    /*border: 1px solid black;*/
+}
+
+
+#Character {
+    width: 50%;
+    top: 20%;
+    height: 90%;
+    z-index: 1000;
+}
+
+/********************************* START OF CALENDER DIVS **************/
+/*Calender Container */
+
+#Container {
+    position: fixed;
+    bottom: 0%;
+    width: 98%;
+    height: 37%;
+    background-color: #eeeeee padding: 0px;
+}
+/* scroller text */
+
+#scroller {
+    position: relative;
+    float: left;
+    bottom: 0%;
+    width: 84%;
+    height: 80%;
+    border: 3px solid #ccc;
+    background-color: #eeeeee;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+/* today text */
+
+#TodayContainer {
+    position: relative;
+    float: right;
+    bottom: 0%;
+    width: 14%;
+    height: 80%;
+    border: 1px solid #ccc;
+    background-color: #eeeeee;
+    border: hidden;
+    overflow-x: initial;
+    white-space: nowrap;
+    padding: 0px;
+}
+
+/* class for each rectangle day - for linear calender*/
+
+.day {
+    background-color: #7cadad;
+    height: 90%;
+    width: 20%;
+    border: 1px solid black;
+    margin: 3px;
+    display: inline-block;
+    white-space: normal;
+    text-align: center;
+    vertical-align: middle;
+    background-color: white;
+}
+/* class for each rectangle day - for linear calender*/
+
+.today {
+    background-color: #7cadad;
+    height: 90%;
+    width: 100%;
+    border: 5px solid red;
+    background-color: #FFFFE0;
+    color: black;
+    /*margin: 3px;*/
+
+    display: inline-block;
+    white-space: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.dataText {
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  width: inherit;
+  top: 40%;
+  height: 20%;
+  font-size: 80%;
+}
+
+
+.dayText{
+  position: absolute;
+  text-align:center;
+  top: 70%;
+  width: inherit;
+  height: 20%;
+  font-size: 80%;
+  vertical-align: middle;
+}
+
+.ImgDivs{
+  position: relative;
+  text-align:center;
+  align-self: center;
+  /*top: 50%;*/
+  height: 40%;
+  width: inherit;
+  vertical-align: middle;
+  padding: 0px;
+  z-index: -1;
+
+}
+
+.ImgDivs img {
+  max-height: 100%;
+  max-width: 100%;
+  z-index: -1;
+}
+
+.badgeimage {
+}
+
+/* div for databox - where the images are displayed for each day*/
+
+/***********ITEMS INSIDE DATA BOX *****************/
+
+#databox {
+    position: relative;
+    float: right;
+    width: 53%;
+    height: 60%;
+    border: 5px solid black;
+    background-color: #ffffff;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 15px;
+}
+
+#DataTable {
+    margin: 10px;
+    position: relative;
+    width: 100%;
+}
+
+#imageRight {
+    background-color: none;
+    position: relative;
+    height: 80%;
+    width: 80%;
+    /*align-self: center;*/
+    /*border: 1px solid black; */
+    /*margin: 3px;*/
+
+    display: inline-block;
+    white-space: normal;
+}
+
+#rightContent {
+    position: relative;
+    height: 100%;
+    width: 40%;
+    float: right;
+    /*align-content: center;*/
+
+    text-align: center;
+}
+}
+#rightText {}
+#leftContent {
+    position: relative;
+    /*left : 30%;*/
+    left: 20%;
+
+    height: 100%;
+    width: 40%;
+    float: left;
+    /*align-content: center;*/
+
+    text-align: center;
+}
+#leftText {}
+#imageLeft {
+    background-color: none;
+    position: relative;
+    height: 80%;
+    width: 80%;
+    /*margin: 3px;*/
+
+    align-self: center;
+    display: inline-block;
+    white-space: normal;
+}
+
+/************************** END OF NARRATIVE DIVS **********/
+
+#legend{
+
+  position: absolute;
+  float: none;
+  align-self: center;
+  top: 60%;
+  left: 0%;
+  width: 23%;
+  height: 35%;
+  border: hidden;
+  background-color: #ffffff;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+
+}
+
+#legendImage
+{
+  width : 100%;
+  height : 100%;
+}
